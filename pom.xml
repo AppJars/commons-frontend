@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.appjars.saturn</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	
+	<groupId>com.appjars.saturn.frontend</groupId>
+	<artifactId>commons-frontend</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>Commons Frontend</name>
+
+	<prerequisites>
+		<maven>3</maven>
+	</prerequisites>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.jupiter.version>5.5.2</junit.jupiter.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<vaadin.version>20.0.3</vaadin.version>
+		<spring.version>5.3.6</spring.version>
+		<spring-security.version>5.4.6</spring-security.version>
+		<keycloak.version>11.0.2</keycloak.version>
+	</properties>
+	
+ 	<inceptionYear>2020</inceptionYear>
+
+	<scm>
+		<connection>scm:git:git@github.com:AppJars/${project.artifactId}.git</connection>
+		<url>scm:git:git@github.com:AppJars/${project.artifactId}.git</url>
+		<developerConnection>scm:git:git@github.com:AppJars/${project.artifactId}.git</developerConnection>
+	</scm>
+
+	<repositories>
+        <repository>
+            <id>saturn-snapshots</id>
+            <url>https://maven.appjars.com/saturn/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+        </repository>
+	</repositories>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<modules>
+		<module>commons-vaadin</module>
+	</modules>
+	
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.9.0</version>
+                </plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<configuration>
+					   <licenseName>apache_v2</licenseName>
+					</configuration>
+				</plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-site-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.doxia</groupId>
+                        <artifactId>doxia-module-markdown</artifactId>
+                        <version>1.9.1</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+	
+</project>

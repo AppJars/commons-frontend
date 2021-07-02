@@ -1,0 +1,10 @@
+    html {
+      --lumo-primary-color: hsl(214, 98%, 28%);
+      --lumo-primary-text-color: hsl(214, 98%, 28%);
+      --lumo-error-color: hsl(3, 100%, 36%);
+      --lumo-error-text-color: hsl(3, 100%, 36%);
+      --lumo-success-color: hsl(145, 100%, 40%);
+      --lumo-success-text-color: hsl(145, 100%, 40%);
+      --lumo-body-text-color: hsla(214, 57%, 8%, 0.94);
+
+    }
