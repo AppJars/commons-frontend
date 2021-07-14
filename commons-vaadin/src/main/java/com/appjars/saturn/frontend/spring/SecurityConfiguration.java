@@ -82,6 +82,8 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
 
         "/icons/**", "/images/**",
 
+        "/connect/**",
+
         // the robots exclusion standard
         "/robots.txt",
 
