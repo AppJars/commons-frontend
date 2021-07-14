@@ -1,10 +1,13 @@
 import { CSSModule } from '@vaadin/flow-frontend/css-utils';
 // @ts-ignore
-import { css, customElement, html, LitElement, property, query } from 'lit-element';
+import { css, customElement, html, LitElement, state, query } from 'lit-element';
 //import { router } from '../index';
 import "@flowingcode/fc-applayout";
 import {FcAppLayoutElement} from "@flowingcode/fc-applayout/src/fc-applayout";
 import "@flowingcode/fc-menuitem";
+import * as menuItemEndpoint from '@vaadin/flow-frontend/generated/MenuEndpoint';
+import MenuItemDto from '@vaadin/flow-frontend/generated/com/flowingcode/addons/applayout/endpoint/MenuItemDto';
+import { EndpointError } from 'Frontend/../target/flow-frontend';
 
 
 @customElement('main-layout')
@@ -13,6 +16,9 @@ export class MainLayout extends LitElement {
 
   @query("#mainLayout")
   fcAppLayout!: FcAppLayoutElement;
+
+  @state()
+  private menuItems: MenuItemDto[] = [];
 
   constructor() {
     super();
@@ -96,13 +102,7 @@ export class MainLayout extends LitElement {
       <div slot="title" main-title="">Inventory Management</div>
       <paper-icon-button slot="toolbar" icon="settings" title="Settings" role="button" tabindex="0" aria-disabled="false"></paper-icon-button>
       <div slot="menu" tabindex="0" aria-selected="false">
-		    <fc-menuitem label="Sub Menu">
-          <fc-menuitem label="Hello world" slot="menu-item" href="/hello"></fc-menuitem>
-		      <fc-menuitem label="External link" slot="menu-item" href="https://www.google.com"></fc-menuitem>
-		    </fc-menuitem>
-		    <fc-menuitem label="Login" href="/" .class=${this.currentLocationClass("")}></fc-menuitem>
-		    <fc-menuitem label="Logout" href="/logout" .class=${this.currentLocationClass("logout")}></fc-menuitem>
-		    <fc-menuitem label="About" href="/about" .class=${this.currentLocationClass("about")}></fc-menuitem>
+      ${this.menuItems.map(item => this.generateFcMenuItem(item))}
       </div>
       <div slot="content">
         <slot></slot>
@@ -115,6 +115,7 @@ export class MainLayout extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
+    this.buildMenu();
   }
 
   disconnectedCallback() {
@@ -123,5 +124,52 @@ export class MainLayout extends LitElement {
 
   private currentLocationClass(route: string): string {
     return /*(router.urlForPath(route) === this.location.getUrl()?"current":"other")*/ "";
+  }
+
+  private buildMenu(){
+    this.updateMenuItems();
+  }
+
+  private async updateMenuItems(){
+    await menuItemEndpoint.getMenuItems().then(mi =>{
+      this.menuItems = mi!
+    } ).catch(error=>{
+      if (error instanceof EndpointError) {
+        console.error("EndpointError");
+        console.error(error.detail);
+        console.error(error.message);
+      } else {
+        console.error("Not EndpointError");
+        console.error(error);
+      }
+    })
+    }
+
+  private generateFcMenuItem(item: MenuItemDto): any {
+    debugger;
+    let routerLink = item.href;
+    let ret;
+    // TODO: Add attrs: key, src, icon(if hasIcon), disabled, (isSubmenu?), onMenuItemClicked
+    if(item.children.length>0) {
+      ret = html`
+          <fc-menuitem
+            class="sub-menu"
+            slot="menu-item" 
+            label="${item.label}"
+            >
+            ${item.children.length>0 ? item.children.map(i => this.generateFcMenuItem(i)) : ""}
+          </fc-menuitem>
+        `;
+    } else {
+      ret = html`
+        <fc-menuitem 
+          slot="menu-item" 
+          href="${routerLink}"
+          label="${item.label}"
+          >
+        </fc-menuitem>
+      `;
+    }
+    return ret;
   }
 }
