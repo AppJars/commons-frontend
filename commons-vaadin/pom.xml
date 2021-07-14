@@ -71,6 +71,11 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>com.flowingcode.addons.applayout</groupId>
+            <artifactId>app-layout-addon</artifactId>
+            <version>5.0.0-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 </project>
