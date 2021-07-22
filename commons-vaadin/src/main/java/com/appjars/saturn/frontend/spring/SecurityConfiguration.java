@@ -56,6 +56,8 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
       .and().authorizeRequests()
       // Allow all flow internal requests.
       .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
+      // Allow all fusion requests.
+      .requestMatchers(SecurityUtils::isFusionRequest).permitAll()
       // Allow all requests by logged in users.
       .anyRequest().fullyAuthenticated()
       // Configure logout
@@ -81,8 +83,6 @@ public class SecurityConfiguration extends KeycloakWebSecurityConfigurerAdapter 
         "/favicon.ico",
 
         "/icons/**", "/images/**",
-
-        "/connect/**",
 
         // the robots exclusion standard
         "/robots.txt",
