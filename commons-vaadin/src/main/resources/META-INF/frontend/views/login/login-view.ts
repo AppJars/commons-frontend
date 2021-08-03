@@ -19,7 +19,7 @@ export class LoginView extends LitElement {
   }
   render() {
     return html`
-      <iframe src="/welcome" frameBorder="0"></iframe>
+      <iframe src="/inner-welcome" frameBorder="0"></iframe>
     `;
   }
   nameChanged(e: CustomEvent) {
