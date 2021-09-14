@@ -10,7 +10,8 @@
 	</parent>
 	
 	<artifactId>commons-vaadin</artifactId>
-	<name>Commons Vaadin Utilities needed by front-end modules</name>
+	<name>Commons Frontend - Vaadin</name>
+	<description>Commons Vaadin Utilities needed by front-end modules</description>
 
 	<dependencyManagement>
 		<dependencies>
