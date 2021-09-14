@@ -47,7 +47,13 @@
 
 	<dependencies>
         <dependency>
-            <groupId>com.vaadin</groupId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+			<version>1.18.20</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.vaadin</groupId>
             <artifactId>vaadin-core</artifactId>
         </dependency>
         <dependency>
