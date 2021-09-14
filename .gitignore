@@ -1,8 +1,8 @@
-/commons-vaadin/.project
-/commons-vaadin/.settings
-/commons-vaadin/.vscode
-/commons-vaadin/target
-/commons-vaadin/.classpath
+/*/.project
+/*/.settings
+/*/.vscode
+/*/target
+/*/.classpath
 /.project
 /.settings
 /.vscode

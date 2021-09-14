@@ -64,6 +64,7 @@
 	
 	<modules>
 		<module>commons-vaadin</module>
+		<module>commons-frontend-security-keycloak</module>
 	</modules>
 	
     <build>
