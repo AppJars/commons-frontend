@@ -26,11 +26,11 @@ public class BaseLayout extends AppLayout {
   @Autowired
   final List<MenuItemProvider> itemProviders;
   @Autowired(required = false)
-  final Optional<DynamicItemProvider> dynamicMenuProvider;
+  final Optional<DefaultItemProvider> dynamicMenuProvider;
   
   private H1 viewTitle;
 
-  public BaseLayout(List<MenuItemProvider> itemProviders, Optional<DynamicItemProvider> dynamicMenuProvider) {
+  public BaseLayout(List<MenuItemProvider> itemProviders, Optional<DefaultItemProvider> dynamicMenuProvider) {
     this.itemProviders = itemProviders;
     this.dynamicMenuProvider = dynamicMenuProvider;
     setPrimarySection(Section.DRAWER);
@@ -74,7 +74,7 @@ public class BaseLayout extends AppLayout {
     nav.add(list);
 
     if (dynamicMenuProvider.isPresent()) {
-      // Dynamic menu handled items
+      // Default menu handled items
       for (Component menuItem : dynamicMenuProvider.get().getMenuItems()) {
         list.add(menuItem);
       }
