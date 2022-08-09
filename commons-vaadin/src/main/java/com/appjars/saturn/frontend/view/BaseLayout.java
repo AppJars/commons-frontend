@@ -54,7 +54,7 @@ public class BaseLayout extends AppLayout {
   }
 
   private Component createDrawerContent() {
-    H2 appName = new H2("Commons frontend - Menu"); //TODO ADD CUSTOM TITLE
+    H2 appName = new H2("AppJars - Menu"); //TODO Add custom title
     appName.addClassNames("flex", "items-center", "h-xl", "m-0", "px-m", "text-m");
 
     com.vaadin.flow.component.html.Section section =
