@@ -19,7 +19,7 @@ import com.vaadin.flow.router.PageTitle;
 /**
  * The main view is a top-level placeholder for other views.
  */
-@CssImport(value = "themes/appjars/base-layout.css")
+@CssImport(value = "./themes/appjars/base-layout.css")
 @SuppressWarnings("serial")
 public class BaseLayout extends AppLayout {
   
@@ -28,11 +28,16 @@ public class BaseLayout extends AppLayout {
   @Autowired(required = false)
   final Optional<DefaultItemProvider> dynamicMenuProvider;
   
+  final Optional<MenuFooterProvider> menuFooterProvider;
+  
   private H1 viewTitle;
 
-  public BaseLayout(List<MenuItemProvider> itemProviders, Optional<DefaultItemProvider> dynamicMenuProvider) {
+  public BaseLayout(List<MenuItemProvider> itemProviders,
+      Optional<DefaultItemProvider> dynamicMenuProvider, Optional<MenuFooterProvider> menuFooterProvider) {
     this.itemProviders = itemProviders;
     this.dynamicMenuProvider = dynamicMenuProvider;
+    this.menuFooterProvider = menuFooterProvider;
+    
     setPrimarySection(Section.DRAWER);
     addToNavbar(true, createHeaderContent());
     addToDrawer(createDrawerContent());
@@ -92,10 +97,14 @@ public class BaseLayout extends AppLayout {
 
   private Footer createFooter() {
     Footer layout = new Footer();
-    layout.addClassNames("flex", "items-center", "my-s", "px-m", "py-xs");
 
+    if (menuFooterProvider.isPresent()) {
+      layout = menuFooterProvider.get().getFooter();
+    }
+
+    layout.addClassNames("flex", "items-center", "my-s", "px-m", "py-xs");
     return layout;
-  }
+  } 
 
   @Override
   protected void afterNavigation() {
