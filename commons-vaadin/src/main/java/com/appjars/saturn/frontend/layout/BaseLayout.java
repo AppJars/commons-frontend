@@ -1,4 +1,4 @@
-package com.appjars.saturn.frontend.view;
+package com.appjars.saturn.frontend.layout;
 
 import java.util.List;
 import java.util.Optional;
