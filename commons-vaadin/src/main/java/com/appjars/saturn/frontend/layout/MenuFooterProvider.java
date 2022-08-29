@@ -1,4 +1,4 @@
-package com.appjars.saturn.frontend.view;
+package com.appjars.saturn.frontend.layout;
 
 import com.vaadin.flow.component.html.Footer;
 
