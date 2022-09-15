@@ -34,16 +34,21 @@ public class BaseLayout extends AppLayout {
   final List<MenuItemProvider> itemProviders;
   @Autowired(required = false)
   final Optional<DefaultItemProvider> dynamicMenuProvider;
-  
+  @Autowired(required = false)
   final Optional<UserAvatarProvider> userAvatarProvider;
-  
+  @Autowired(required = false)
+  final Optional<ApplicationInfoProvider> applicationInfoProvider;
+
   private H1 viewTitle;
 
   public BaseLayout(List<MenuItemProvider> itemProviders,
-      Optional<DefaultItemProvider> dynamicMenuProvider, Optional<UserAvatarProvider> menuFooterProvider) {
+      Optional<DefaultItemProvider> dynamicMenuProvider,
+      Optional<UserAvatarProvider> menuFooterProvider,
+      Optional<ApplicationInfoProvider> applicationInfoProvider) {
     this.itemProviders = itemProviders;
     this.dynamicMenuProvider = dynamicMenuProvider;
     this.userAvatarProvider = menuFooterProvider;
+    this.applicationInfoProvider = applicationInfoProvider;
     
     setPrimarySection(Section.DRAWER);
     addToNavbar(true, createHeaderContent());
@@ -65,9 +70,13 @@ public class BaseLayout extends AppLayout {
     return header;
   }
 
-  private Component createDrawerContent() {
-    H2 appName = new H2("AppJars - Menu"); //TODO Add custom title
+  private Component createDrawerContent() {    
+    H2 appName = new H2("AppJars - Menu");
     appName.addClassNames("flex", "items-center", "h-xl", "m-0", "px-m", "text-m");
+    
+    if (applicationInfoProvider.isPresent()) {
+      appName.setText(applicationInfoProvider.get().getApplicationTitle());
+    }
 
     com.vaadin.flow.component.html.Section section =
         new com.vaadin.flow.component.html.Section(appName, createNavigation(), createFooter());
