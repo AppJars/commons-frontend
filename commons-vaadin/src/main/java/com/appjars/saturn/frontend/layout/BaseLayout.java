@@ -20,6 +20,8 @@ import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Nav;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.server.VaadinRequest;
 
@@ -112,8 +114,11 @@ public class BaseLayout extends AppLayout {
   }
 
   private Footer createFooter() {
-    Footer layout = new Footer();
-
+    Footer footer = new Footer();
+    HorizontalLayout footerLayout = new HorizontalLayout();
+    footerLayout.setAlignItems(Alignment.CENTER);
+    footerLayout.getElement().getStyle().set("margin", "8px");
+    
     //TODO: get login page accordingly
     String loginUrl="login";
     
@@ -141,15 +146,16 @@ public class BaseLayout extends AppLayout {
       Span name = new Span(userOpt.get().getName());
       name.addClassNames("font-medium", "text-s", "text-secondary");
 
-      layout.add(avatar, name);
+      footerLayout.add(avatar, name);
       
     } else {
       // User is not logged in
       Anchor loginLink = new Anchor(loginUrl, "Sign in");
-      layout.add(loginLink);
+      footerLayout.add(loginLink);
     }
     
-    return layout;
+    footer.add(footerLayout);
+    return footer;
   } 
 
   @Override
