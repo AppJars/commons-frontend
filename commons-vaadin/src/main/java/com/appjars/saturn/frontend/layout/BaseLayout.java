@@ -1,20 +1,27 @@
 package com.appjars.saturn.frontend.layout;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Nav;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.html.UnorderedList;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.server.VaadinRequest;
 
 /**
  * The main view is a top-level placeholder for other views.
@@ -28,15 +35,15 @@ public class BaseLayout extends AppLayout {
   @Autowired(required = false)
   final Optional<DefaultItemProvider> dynamicMenuProvider;
   
-  final Optional<MenuFooterProvider> menuFooterProvider;
+  final Optional<UserAvatarProvider> userAvatarProvider;
   
   private H1 viewTitle;
 
   public BaseLayout(List<MenuItemProvider> itemProviders,
-      Optional<DefaultItemProvider> dynamicMenuProvider, Optional<MenuFooterProvider> menuFooterProvider) {
+      Optional<DefaultItemProvider> dynamicMenuProvider, Optional<UserAvatarProvider> menuFooterProvider) {
     this.itemProviders = itemProviders;
     this.dynamicMenuProvider = dynamicMenuProvider;
-    this.menuFooterProvider = menuFooterProvider;
+    this.userAvatarProvider = menuFooterProvider;
     
     setPrimarySection(Section.DRAWER);
     addToNavbar(true, createHeaderContent());
@@ -98,11 +105,41 @@ public class BaseLayout extends AppLayout {
   private Footer createFooter() {
     Footer layout = new Footer();
 
-    if (menuFooterProvider.isPresent()) {
-      layout = menuFooterProvider.get().getFooter();
-    }
+    //TODO: get login page accordingly
+    String loginUrl="login";
+    
+    Optional<Principal> userOpt =
+        Optional.ofNullable(VaadinRequest.getCurrent().getUserPrincipal());
 
-    layout.addClassNames("flex", "items-center", "my-s", "px-m", "py-xs");
+    if (userOpt.isPresent()) {
+      // User is logged in
+      Avatar avatar = new Avatar();
+      
+      if (userAvatarProvider.isPresent()) {
+        avatar = userAvatarProvider.get().getAvatar();
+      }else {
+        avatar.setName(userOpt.get().getName());
+        avatar.addClassNames("me-xs");
+      }
+      
+      ContextMenu userMenu = new ContextMenu(avatar);
+      userMenu.setOpenOnClick(true);
+      userMenu.addItem("Logout", e -> {
+        UI.getCurrent().getSession().close();
+        UI.getCurrent().getPage().setLocation(loginUrl);
+      });
+
+      Span name = new Span(userOpt.get().getName());
+      name.addClassNames("font-medium", "text-s", "text-secondary");
+
+      layout.add(avatar, name);
+      
+    } else {
+      // User is not logged in
+      Anchor loginLink = new Anchor(loginUrl, "Sign in");
+      layout.add(loginLink);
+    }
+    
     return layout;
   } 
 
