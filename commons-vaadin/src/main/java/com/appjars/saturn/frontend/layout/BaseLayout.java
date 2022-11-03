@@ -3,33 +3,35 @@ package com.appjars.saturn.frontend.layout;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.appjars.saturn.frontend.component.AppNav;
 import com.appjars.saturn.frontend.component.AppNavItem;
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Footer;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.RouteConfiguration;
+import com.vaadin.flow.router.RouteData;
 import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @SuppressWarnings("serial")
 public class BaseLayout extends AppLayout {
 
-  @Autowired
-  final List<MenuItemProvider> itemProviders;
+  @Autowired(required = false)
+  final Optional<List<MenuItemProvider>> itemProviders;
   @Autowired(required = false)
   final Optional<DefaultItemProvider> dynamicMenuProvider;
   @Autowired(required = false)
@@ -43,7 +45,7 @@ public class BaseLayout extends AppLayout {
   
   public BaseLayout(
       Optional<UserAvatarProvider> userAvatarProvider,
-      List<MenuItemProvider> itemProviders, 
+      Optional<List<MenuItemProvider>> itemProviders, 
       Optional<DefaultItemProvider> dynamicMenuProvider,
       Optional<ApplicationInfoProvider> applicationInfoProvider, 
       Optional<UserSessionProvider> userSessionProvider) {
@@ -92,15 +94,34 @@ public class BaseLayout extends AppLayout {
         nav.addItem(menuItem);
       }
     } else {
-      // Menu Items handled by each module's menu item provider
-      for (MenuItemProvider itemProvider : itemProviders) {
-        for (Component menuItem : itemProvider.getMenuItems()) {
-          // Add all menu items from each menu item provider
+      if(itemProviders.isPresent()) {
+        // Menu Items handled by each module's menu item provider
+        for (MenuItemProvider itemProvider : itemProviders.get()) {
+          for (Component menuItem : itemProvider.getMenuItems()) {
+            // Add all menu items from each menu item provider
+            nav.addItem(menuItem);
+          }
+        }
+      } else {
+        // No menu item provider present, scanning application's routes
+        for (Component menuItem : getMenuItemFromRoutes()) {
           nav.addItem(menuItem);
         }
       }
     }
     return nav;
+  }
+
+  private List<AppNavItem> getMenuItemFromRoutes() {
+    List<RouteData> routes = RouteConfiguration.forSessionScope().getAvailableRoutes();
+    return routes.stream().map(routeData -> {
+      String viewName = routeData.getNavigationTarget().getSimpleName();
+      String spacedViewName =
+          StringUtils.join(StringUtils.splitByCharacterTypeCamelCase(viewName), " ");
+      String url = RouteConfiguration.forApplicationScope().getUrl(routeData.getNavigationTarget());
+
+      return new AppNavItem(spacedViewName, url);
+    }).collect(Collectors.toList());
   }
 
   private Footer createFooter() {

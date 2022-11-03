@@ -135,8 +135,8 @@ public class AppNavItem extends Component {
      *            the menu item(s) to add
      * @return this item for chaining
      */
-    public AppNavItem addItem(AppNavItem... appNavItems) {
-        for (AppNavItem appNavItem : appNavItems) {
+    public AppNavItem addItem(Component... appNavItems) {
+        for (Component appNavItem : appNavItems) {
             appNavItem.getElement().setAttribute("slot", "children");
             getElement().appendChild(appNavItem.getElement());
         }
