@@ -13,6 +13,8 @@ import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.dependency.CssImport;
+import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H2;
@@ -28,6 +30,8 @@ import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @SuppressWarnings("serial")
+@CssImport("/themes/appjars/base-layout.css")
+@NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
 public class BaseLayout extends AppLayout {
 
   @Autowired(required = false)
@@ -71,7 +75,7 @@ public class BaseLayout extends AppLayout {
   }
 
   private void addDrawerContent() {
-      H2 appName = new H2("AppJars - Menu");
+      H2 appName = new H2("Menu");
       appName.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.NONE);
       if (applicationInfoProvider.isPresent()) {
         appName.setText(applicationInfoProvider.get().getApplicationTitle());
