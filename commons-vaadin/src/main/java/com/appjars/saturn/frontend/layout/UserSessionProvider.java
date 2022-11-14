@@ -4,6 +4,8 @@ public interface UserSessionProvider {
 
   public void logout();
 
+  public String getBaseUrl();
+
   public String getLoginUrl();
 
 }

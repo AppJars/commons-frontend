@@ -12,14 +12,16 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.avatar.Avatar;
-import com.vaadin.flow.component.contextmenu.ContextMenu;
+import com.vaadin.flow.component.contextmenu.MenuItem;
 import com.vaadin.flow.component.dependency.CssImport;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.Anchor;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Header;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
@@ -148,18 +150,11 @@ public class BaseLayout extends AppLayout {
           avatar.addClassNames("me-xs");
         }
         
-        if (userSessionProvider.isPresent()) {
-          ContextMenu userMenu = new ContextMenu(avatar);
-          userMenu.setOpenOnClick(true);
-          userMenu.addItem("Logout", e -> {
-            userSessionProvider.get().logout();
-          });
-        }
+        Component userComponent =
+            userSessionProvider.isPresent() ? getContextUserMenu(userOpt.get(), avatar)
+                : getSimpleUserMenu(userOpt.get(), avatar);
 
-        Span name = new Span(userOpt.get().getName());
-        name.addClassNames("font-medium", "text-s", "text-secondary");
-
-        footerLayout.add(avatar, name);
+        footerLayout.add(userComponent);
         
       } else {
         // User is not logged in
@@ -171,6 +166,37 @@ public class BaseLayout extends AppLayout {
       layout.add(footerLayout);
       
       return layout;
+  }
+
+  private Component getSimpleUserMenu(Principal principal, Avatar avatar) {
+    Div userDiv = new Div();
+    userDiv.add(avatar);
+    userDiv.add(principal.getName());
+    userDiv.getElement().getStyle().set("display", "flex");
+    userDiv.getElement().getStyle().set("align-items", "center");
+    userDiv.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+
+    return userDiv;
+  }
+
+  private Component getContextUserMenu(Principal principal, Avatar avatar) {
+    MenuBar userMenu = new MenuBar();
+    userMenu.setThemeName("tertiary-inline contrast");
+
+    MenuItem userName = userMenu.addItem("");
+    Div div = new Div();
+    div.add(avatar);
+    div.add(principal.getName());
+    div.add(new Icon("lumo", "dropdown"));
+    div.getElement().getStyle().set("display", "flex");
+    div.getElement().getStyle().set("align-items", "center");
+    div.getElement().getStyle().set("gap", "var(--lumo-space-s)");
+    userName.add(div);
+    userName.getSubMenu().addItem("Sign out", e -> {
+      userSessionProvider.get().logout();
+    });
+
+    return userMenu;
   }
 
   @Override
