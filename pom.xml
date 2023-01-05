@@ -12,7 +12,7 @@
 	<groupId>com.appjars.saturn.frontend</groupId>
 	<artifactId>commons-frontend</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>Commons Frontend</name>
 
 	<prerequisites>
@@ -24,7 +24,7 @@
 		<junit.jupiter.version>5.5.2</junit.jupiter.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<vaadin.version>20.0.3</vaadin.version>
+		<vaadin.version>23.2.6</vaadin.version>
 		<spring.version>5.3.6</spring.version>
 		<spring-security.version>5.4.6</spring-security.version>
 		<keycloak.version>11.0.2</keycloak.version>
