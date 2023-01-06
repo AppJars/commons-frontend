@@ -32,7 +32,7 @@ import com.vaadin.flow.server.VaadinRequest;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
 @SuppressWarnings("serial")
-@CssImport("/themes/appjars/base-layout.css")
+@CssImport("./themes/appjars/base-layout.css")
 @NpmPackage(value = "@vaadin-component-factory/vcf-nav", version = "1.0.6")
 public class BaseLayout extends AppLayout {
 
