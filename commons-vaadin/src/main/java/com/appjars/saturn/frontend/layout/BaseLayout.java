@@ -25,6 +25,7 @@ import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.Scroller;
+import com.vaadin.flow.router.HasDynamicTitle;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouteConfiguration;
 import com.vaadin.flow.router.RouteData;
@@ -206,7 +207,11 @@ public class BaseLayout extends AppLayout {
   }
 
   private String getCurrentPageTitle() {
-      PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
+    PageTitle title = getContent().getClass().getAnnotation(PageTitle.class);
+    if(getContent() instanceof HasDynamicTitle) {
+      return ((HasDynamicTitle) getContent()).getPageTitle();
+    }else {
       return title == null ? "" : title.value();
+    }
   }
 }
