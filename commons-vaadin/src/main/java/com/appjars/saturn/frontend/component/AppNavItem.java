@@ -127,6 +127,22 @@ public class AppNavItem extends Component {
 
         setIconClass(iconClass);
     }
+    
+    /**
+     * Creates a new menu item using the given label that links to the given view.
+     * 
+     * @param label
+     *            the label for the item
+     * @param view
+     *            the view to link to
+     * @param icon
+     *            the icon for the item
+     */
+    public AppNavItem(String label, Class<? extends Component> view, Component icon) {
+        setPath(view);
+        setLabel(label);
+        setIcon(icon);
+    }
 
     /**
      * Adds menu item(s) inside this item, creating a hierarchy.
