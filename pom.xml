@@ -12,7 +12,7 @@
 	<groupId>com.appjars.saturn.frontend</groupId>
 	<artifactId>commons-frontend</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>Commons Frontend</name>
 
 	<prerequisites>
@@ -21,14 +21,13 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<junit.jupiter.version>5.5.2</junit.jupiter.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
-		<vaadin.version>23.2.6</vaadin.version>
-		<spring.version>5.3.6</spring.version>
-		<spring-security.version>5.4.6</spring-security.version>
-		<keycloak.version>11.0.2</keycloak.version>
-		<springboot.version>2.7.0</springboot.version>
+		<junit.jupiter.version>5.9.2</junit.jupiter.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<vaadin.version>24.0.1</vaadin.version>
+		<spring.core.version>6.0.6</spring.core.version>
+		<spring.security.version>6.0.2</spring.security.version>
+		<spring.boot.version>3.0.4</spring.boot.version>
 	</properties>
 	
  	<inceptionYear>2020</inceptionYear>
