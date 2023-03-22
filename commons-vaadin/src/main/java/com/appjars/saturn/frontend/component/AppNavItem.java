@@ -287,6 +287,9 @@ public class AppNavItem extends Component {
      * @return this instance for chaining
      */
     public AppNavItem setIcon(Component icon) {
+        if(icon instanceof Icon) {
+          ((Icon) icon).setSize("16px");
+        }
         icon.getElement().setAttribute("slot", "prefix");
         int iconElementIndex = getIconElementIndex();
         if (iconElementIndex != -1) {
