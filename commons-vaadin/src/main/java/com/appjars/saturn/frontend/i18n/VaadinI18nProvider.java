@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 @Primary
 public class VaadinI18nProvider implements I18NProvider {
 
-  ResourceBundle resourceBundle;
+  protected ResourceBundle resourceBundle;
   ResourceBundle resourceBundleAux;
   Enumeration<URL> enumer;
   InputStream inputStream;
