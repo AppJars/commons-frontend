@@ -6,6 +6,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
@@ -60,7 +61,7 @@ public class VaadinI18nProvider implements I18NProvider {
   @Override
   public String getTranslation(String key, Locale locale, Object... params) {
     try {
-      return resourceBundle.getString(key);
+      return MessageFormat.format(resourceBundle.getString(key), params);
     } catch (MissingResourceException e) {
       return key;
     }
