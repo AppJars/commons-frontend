@@ -14,11 +14,14 @@ import java.util.MissingResourceException;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @SuppressWarnings("serial")
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Component
 @Primary
 public class VaadinI18nProvider implements I18NProvider {
